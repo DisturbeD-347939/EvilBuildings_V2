@@ -15,8 +15,8 @@ var t, r;
 
 setImmediate(function()
 {
-    //Transform daily rate into seconds
-    twitterDailyRate = (24/configData["twitter"][0]["daily_rate"]) * 60 * 60;
+    //Transform daily rate into milliseconds
+    twitterDailyRate = (24/configData["twitter"][0]["daily_rate"]) * 60 * 60 * 1000;
 
     //Authenticate APIs
     auth.run(keyPath, function(data)
