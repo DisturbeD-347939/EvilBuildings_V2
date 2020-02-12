@@ -11,15 +11,13 @@ module.exports =
         {
             //console.log(tweet);
             var createdAt = new Date(tweet[0]["created_at"]);
-            console.log(timer);
-            console.log(createdAt.getTime());
             if(Date.now() - timer > createdAt.getTime())
             {
-                console.log("It is");
+                callback(1);
             }
             else
             {
-                console.log("It isn't");
+                callback(0);
             }
         })
     }
