@@ -11,6 +11,8 @@ var fs = require('fs');
 var keyPath = 'keys.json';
 var configData = JSON.parse(fs.readFileSync('config.json', 'utf-8'));
 var twitterDailyRate, redditDailyRate;
+var redditDailyRate = Math.ceil(configData["reddit"][0]["daily_rate"]/configData["twitter"][0]["daily_rate"]);
+console.log(redditDailyRate);
 
 //APIs
 var t, r;
@@ -69,9 +71,9 @@ function getRedditPosts(r)
         counter = files.length;
 
         //Get the most recent posts titles to check for repetitions
-        if(files.length - configData["twitter"][0]["daily_rate"] > 0)
+        if(files.length - redditDailyRate > 0)
         {
-            for(var i = files.length - 1; i >= files.length - configData["reddit"][0]["daily_rate"]; i--)
+            for(var i = files.length - 1; i >= files.length - redditDailyRate; i--)
             {
                 var title = fs.readFileSync('./posts/' + i + "/title.txt", 'utf-8', function(err, data){});
                 titles.push(title);
@@ -79,42 +81,46 @@ function getRedditPosts(r)
         }
 
     });
-    reddit.collect(r, configData["reddit"][0]["subreddit"], configData["reddit"][0]["daily_rate"], function(redditPosts)
+
+    if(counter < 100)
     {
-        for(var i = 0; i < redditPosts.length; i++)
+        reddit.collect(r, configData["reddit"][0]["subreddit"], redditDailyRate, function(redditPosts)
         {
-            //Check for repeated posts
-            var repeated = false;
-            for(var j = 0; j < titles.length; j++)
+            for(var i = 0; i < redditPosts.length; i++)
             {
-                if(titles[j] == redditPosts[i].title)
+                //Check for repeated posts
+                var repeated = false;
+                for(var j = 0; j < titles.length; j++)
                 {
-                    repeated = true;
+                    if(titles[j] == redditPosts[i].title)
+                    {
+                        repeated = true;
+                    }
+                }
+    
+                //If the post is new, create it
+                if(!repeated)
+                {
+                    var path = './posts/' + counter + "/pic." + checkFormat(redditPosts[i].url);
+    
+                    //Create directory for the post
+                    fs.mkdir('./posts/' + counter, function(err, data){});
+    
+                    //Create title.txt containing the title for the post
+                    fs.writeFile('./posts/' + counter + "/title.txt", redditPosts[i].title, function(err, data){});
+    
+                    //Download post
+                    download.get(redditPosts[i].url, path, function(){});
+                    counter++;
+                }
+    
+                if(i + 1 >= redditPosts.length)
+                {
+                    console.log("Got reddit posts!");
                 }
             }
-
-            //If the post is new, create it
-            if(!repeated)
-            {
-                var path = './posts/' + counter + "/pic." + checkFormat(redditPosts[i].url);
-
-                //Create directory for the post
-                fs.mkdir('./posts/' + counter, function(err, data){});
-
-                //Create title.txt containing the title for the post
-                fs.writeFile('./posts/' + counter + "/title.txt", redditPosts[i].title, function(err, data){});
-
-                //Download post
-                download.get(redditPosts[i].url, path, function(){});
-                counter++;
-            }
-
-            if(i + 1 >= redditPosts.length)
-            {
-                console.log("Got reddit posts!");
-            }
-        }
-    });
+        });
+    }
 }
 
 function checkFormat(url)
