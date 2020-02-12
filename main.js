@@ -1,6 +1,8 @@
-//Require scripts
-var auth = require('./scripts/authenticate.js');
-var twitter = require('./scripts/twitter.js');
+//Scripts
+var download = require('./scripts/downloadURL');
+var auth = require('./scripts/authenticate');
+var twitter = require('./scripts/twitter');
+var reddit = require('./scripts/reddit')
 
 //File management
 var fs = require('fs');
@@ -36,6 +38,8 @@ setImmediate(function()
         t = data[1];
         console.log("Authenticated APIs");
 
+        getRedditPosts(r);
+
         //Check if it's been long enough to post new tweet!
         twitter.getLatest(t, twitterDailyRate, function(post)
         {
@@ -53,9 +57,29 @@ setImmediate(function()
     });
 });
 
-function getPost()
+function getRedditPosts(r)
 {
+    console.log("Getting reddit posts...");
+    var counter = 0;
+    fs.readdir('./posts/', (err, files) => 
+    {
+        counter = files.length;
+    });
+    reddit.collect(r, configData["reddit"][0]["subreddit"], 5, function(redditPosts)
+    {
+        for(var i = 0; i < redditPosts.length; i++)
+        {
+            var path = './posts/' + counter + "/pic." + checkFormat(redditPosts[i].url);
+            fs.mkdir('./posts/' + counter, function(err, data){});
+            download.get(redditPosts[i].url, path, function(){});
+            counter++;
 
+            if(i + 1 >= redditPosts.length)
+            {
+                console.log("Got reddit posts!");
+            }
+        }
+    });
 }
 
 function checkFormat(url)

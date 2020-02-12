@@ -1,8 +1,14 @@
+//File Management
+var fs = require('fs');
+
 module.exports =
 {
     //Download and organize reddit posts from r/evilbuildings
-    collect: function(reddit, subreddit, posts_per_day, postNumber, countriesList, citiesList, callback)
+    collect: function(r, subreddit, amount, callback)
     {
-        
+        r.getSubreddit(subreddit).getRising({"limit": amount}).then(posts => 
+        {
+            callback(posts);
+        })
     }
 }
