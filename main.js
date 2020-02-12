@@ -47,11 +47,17 @@ setImmediate(function()
         {
             if(post)
             {
-                fs.readdirSync('./posts', (err, files) => 
+                fs.readdir('./posts', (err, files) => 
                 {
                     if(files.length > 0)
                     {
-                        twitter.post();
+                        setTimeout(function()
+                        {
+                            twitter.post(t, function()
+                            {
+                                console.log("Back");
+                            })
+                        }, 2000);
                     }
                 })
             }
