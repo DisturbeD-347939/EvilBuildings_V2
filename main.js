@@ -58,7 +58,33 @@ function getPost()
 
 }
 
-function createPost()
+function checkFormat(url)
 {
+    var format = "";
+    var found = false;
+    url = url.split("").reverse().join("");
 
+    for(var i = 0; i < url.length; i++)
+    {
+        if(!found)
+        {
+            if(url[i] != ".")
+            {
+                format += url[i];
+            }
+            else
+            {
+                found = true;
+            }
+        }
+    }
+
+    format = format.split("").reverse().join("");
+
+    if(format[0] == ['c'] && format[1] == ['o'] && format[2] == ['m'])
+    {
+        format = format.slice(0,3);
+    }
+
+    return format;
 }
