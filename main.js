@@ -77,13 +77,14 @@ function getRedditPosts(r)
         counter = files.length;
 
         //Get the most recent posts titles to check for repetitions
-        if(files.length - redditDailyRate > 0)
+        if(files.length > 0)
         {
-            for(var i = files.length - 1; i >= files.length - redditDailyRate; i--)
+            for(var i = 0; i < files.length; i++)
             {
                 var title = fs.readFileSync('./posts/' + i + "/title.txt", 'utf-8', function(err, data){});
                 titles.push(title);
             }
+            console.log(titles + titles.length);
         }
 
     });
