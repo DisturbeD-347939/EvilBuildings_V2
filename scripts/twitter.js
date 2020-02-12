@@ -1,8 +1,11 @@
+//File management
+var fs = require('fs');
+
 module.exports =
 {
     post: function(twitter, callback)
     {
-        
+        data = getPostData();
     },
 
     getLatest: function(twitter, timer, callback)
@@ -21,4 +24,26 @@ module.exports =
             }
         })
     }
+}
+
+
+function getPostData()
+{
+    var fileCounter = 0;
+
+    fs.readdir(__dirname + '/../posts/', (err, files) => 
+    {
+        fileCounter = files.length;
+
+        var path = __dirname + '/../posts/' + (fileCounter - 1);
+        var post = fs.readdirSync(path);
+
+        var image = fs.readFileSync(path + "/" + post[0], { encoding: 'base64' });
+        var title = fs.readFileSync(path + "/" + post[1], 'utf-8');
+
+        console.log(title);
+    });
+
+    
+    //
 }
