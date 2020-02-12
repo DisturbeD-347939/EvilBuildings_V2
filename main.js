@@ -13,8 +13,19 @@ var twitterDailyRate, redditDailyRate;
 //APIs
 var t, r;
 
+function setup()
+{
+    if(!fs.existsSync('./posts'))
+    {
+        fs.mkdirSync('./posts');
+    }
+    
+}
+
 setImmediate(function()
 {
+    setup();
+
     //Transform daily rate into milliseconds
     twitterDailyRate = (24/configData["twitter"][0]["daily_rate"]) * 60 * 60 * 1000;
 
