@@ -69,10 +69,17 @@ function getRedditPosts(r)
     {
         for(var i = 0; i < redditPosts.length; i++)
         {
-            var path = './posts/' + counter + "/pic." + checkFormat(redditPosts[i].url);
-            fs.mkdir('./posts/' + counter, function(err, data){});
-            download.get(redditPosts[i].url, path, function(){});
-            counter++;
+                var path = './posts/' + counter + "/pic." + checkFormat(redditPosts[i].url);
+
+                //Create directory for the post
+                fs.mkdir('./posts/' + counter, function(err, data){});
+
+                //Create title.txt containing the title for the post
+                fs.writeFile('./posts/' + counter + "/title.txt", redditPosts[i].title, function(err, data){});
+
+                //Download post
+                download.get(redditPosts[i].url, path, function(){});
+                counter++;
 
             if(i + 1 >= redditPosts.length)
             {
