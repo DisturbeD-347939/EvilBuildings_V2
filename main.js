@@ -37,9 +37,18 @@ setImmediate(function()
         console.log("Authenticated APIs");
 
         //Check if it's been long enough to post new tweet!
-        twitter.getLatest(t, twitterDailyRate, function(data)
+        twitter.getLatest(t, twitterDailyRate, function(post)
         {
-            console.log(data);
+            if(post)
+            {
+                fs.readdirSync('./posts', (err, files) => 
+                {
+                    if(files.length > 0)
+                    {
+                        twitter.post();
+                    }
+                })
+            }
         })
     });
 });
