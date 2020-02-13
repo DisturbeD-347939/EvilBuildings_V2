@@ -22,9 +22,13 @@ module.exports =
     
                             if(locations != "")
                             {
-                                text += locations + " | ";
+                                text += locations + " ";
                             }
-                            text += tags[0] + " " + tags[1] + " " + tags[2];
+
+                            if(tags != "")
+                            {
+                                text += tags[0] + " " + tags[1] + " " + tags[2];
+                            }
 
                             console.log(text);
     

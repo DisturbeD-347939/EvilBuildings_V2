@@ -174,10 +174,17 @@ function getTags(callback)
             var format = fs.readFileSync('./posts/' + i + "/format.txt", 'utf-8');
             ir.classify('./posts/' + i + "/pic." + format, function(data)
             {
-                ir.getTags(data, function(data)
+                if(data != "err")
                 {
-                    callback(data);
-                })
+                    ir.getTags(data, function(data)
+                    {
+                        callback(data);
+                    })
+                }
+                else
+                {
+                    callback("");
+                }
             })
         }
     });
