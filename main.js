@@ -105,6 +105,21 @@ function getRedditPosts(r, callback)
 
     });
 
+    fs.readdir('./used/', (err, files) => 
+    {
+
+        //Get the most recent posts titles to check for repetitions
+        if(files.length > 0)
+        {
+            for(var i = 0; i < files.length; i++)
+            {
+                var title = fs.readFileSync('./used/' + i + "/title.txt", 'utf-8', function(err, data){});
+                titles.push(title);
+            }
+        }
+
+    });
+
     if(counter < 100)
     {
         reddit.collect(r, configData["reddit"][0]["subreddit"], redditDailyRate, function(redditPosts)
