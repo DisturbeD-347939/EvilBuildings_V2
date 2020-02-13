@@ -40,8 +40,8 @@ function getPostData(callback)
         var path = __dirname + '/../posts/' + (fileCounter - 1);
         var post = fs.readdirSync(path);
 
-        var image = fs.readFileSync(path + "/" + post[0], { encoding: 'base64' });
-        var title = fs.readFileSync(path + "/" + post[1], 'utf-8');
+        var image = fs.readFileSync(path + "/" + post[1], { encoding: 'base64' });
+        var title = fs.readFileSync(path + "/" + post[2], 'utf-8');
 
         callback([title,image]);
     });
