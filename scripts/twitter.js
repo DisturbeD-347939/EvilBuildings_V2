@@ -2,12 +2,65 @@
 var fs = require('fs');
 var fsE = require('fs-extra');
 const csv = require('csv-parser');
+var rimraf = require("rimraf");
 
 module.exports =
 {
-    post: function(twitter, callback)
+    post: function(twitter, tags, callback)
     {
-        data = getPostData();
+        getPostData(function(data)
+        {
+            twitter.post('media/upload', {media: data[1]}, function(error, media, response) 
+            {
+                if (!error) 
+                {
+                    getDatasets(function(datasets)
+                    {
+                        checkLocation(datasets[0], datasets[1], data[0], function(locations)
+                        {
+                            //Prepare the tweet
+                            var text = "";
+    
+                            if(locations != "")
+                            {
+                                text += locations + " | ";
+                            }
+                            text += tags[0] + " " + tags[1] + " " + tags[2];
+
+                            console.log(text);
+    
+                            var status = 
+                            {
+                                status: text,
+                                media_ids: media.media_id_string,
+                            }
+    
+                            //Post the tweet
+                            twitter.post('statuses/update', status, function(error, tweet, response) 
+                            {
+                                if (error) 
+                                {
+                                    console.log(error);
+                                }
+                                else
+                                {
+                                    console.log("Posted!\n");
+                                    fs.readdir('./posts', (err, files) => 
+                                    {
+                                        //var path = "./posts/" + (files.length-1);
+                                        //rimraf(path, function () { console.log("Folder deleted"); });
+                                    })
+                                }
+                            });
+                        })
+                    })
+                }
+                else
+                {
+                    console.log(error);
+                }
+            })
+        });
     },
 
     getLatest: function(twitter, timer, callback)
