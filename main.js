@@ -12,8 +12,9 @@ var fs = require('fs');
 var keyPath = 'keys.json';
 var configData = JSON.parse(fs.readFileSync('config.json', 'utf-8'));
 var twitterDailyRate, redditDailyRate;
-var redditDailyRate = Math.ceil(configData["reddit"][0]["daily_rate"]/configData["twitter"][0]["daily_rate"]);
-console.log(redditDailyRate);
+
+redditDailyRate = Math.ceil(configData["reddit"][0]["daily_rate"]/configData["twitter"][0]["daily_rate"]);
+twitterDailyRate = (24/configData["twitter"][0]["daily_rate"]) * 60 * 60 * 1000;
 
 //APIs
 var t, r;
