@@ -130,6 +130,24 @@ function getRedditPosts(r)
     }
 }
 
+function getTags(callback)
+{
+    fs.readdir('./posts/', (err, files) => 
+    {
+        for(var i = files.length - 1; i < files.length; i++)
+        {
+            var format = fs.readFileSync('./posts/' + i + "/format.txt", 'utf-8');
+            ir.classify('./posts/' + i + "/pic." + format, function(data)
+            {
+                ir.getTags(data, function(data)
+                {
+                    callback(data);
+                })
+            })
+        }
+    });
+}
+
 function checkFormat(url)
 {
     var format = "";
