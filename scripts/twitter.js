@@ -27,7 +27,7 @@ module.exports =
 }
 
 
-function getPostData()
+function getPostData(callback)
 {
     var fileCounter = 0;
 
@@ -41,7 +41,7 @@ function getPostData()
         var image = fs.readFileSync(path + "/" + post[0], { encoding: 'base64' });
         var title = fs.readFileSync(path + "/" + post[1], 'utf-8');
 
-        console.log(title);
+        callback([title,image]);
     });
 
     
