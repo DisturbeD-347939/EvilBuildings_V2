@@ -32,12 +32,19 @@ function setup()
     }
 }
 
+setInterval(function()
+{
+    run();
+}, twitterDailyRate + 25000);
+
 setImmediate(function()
 {
-    setup();
+    run();
+});
 
-    //Transform daily rate into milliseconds
-    twitterDailyRate = (24/configData["twitter"][0]["daily_rate"]) * 60 * 60 * 1000;
+function run()
+{
+    setup();
 
     //Authenticate APIs
     auth.run(keyPath, function(data)
@@ -73,7 +80,7 @@ setImmediate(function()
             })
         });
     });
-});
+}
 
 function getRedditPosts(r, callback)
 {
