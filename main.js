@@ -56,8 +56,7 @@ setImmediate(function()
                             {
                                 getTags(function(tags)
                                 {
-                                    console.log(tags);
-                                    twitter.post(t, function()
+                                    twitter.post(t, tags, function()
                                     {
                                         console.log("Back");
                                     })
