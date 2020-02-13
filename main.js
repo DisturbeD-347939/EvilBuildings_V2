@@ -25,7 +25,11 @@ function setup()
     {
         fs.mkdirSync('./posts');
     }
-    
+
+    if(!fs.existsSync('./used'))
+    {
+        fs.mkdirSync('./used');
+    }
 }
 
 setImmediate(function()
