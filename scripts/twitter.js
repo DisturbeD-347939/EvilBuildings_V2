@@ -1,5 +1,7 @@
 //File management
 var fs = require('fs');
+var fsE = require('fs-extra');
+const csv = require('csv-parser');
 
 module.exports =
 {
