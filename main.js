@@ -3,6 +3,7 @@ var download = require('./scripts/downloadURL');
 var auth = require('./scripts/authenticate');
 var twitter = require('./scripts/twitter');
 var reddit = require('./scripts/reddit')
+var ir = require('./scripts/imageRecognition');
 
 //File management
 var fs = require('fs');
@@ -40,28 +41,33 @@ setImmediate(function()
         t = data[1];
         console.log("Authenticated APIs");
 
-        getRedditPosts(r);
-
-        //Check if it's been long enough to post new tweet!
-        twitter.getLatest(t, twitterDailyRate, function(post)
+        getRedditPosts(r, function()
         {
-            if(post)
+            //Check if it's been long enough to post new tweet!
+            twitter.getLatest(t, twitterDailyRate, function(post)
             {
-                fs.readdir('./posts', (err, files) => 
+                if(post)
                 {
-                    if(files.length > 0)
+                    fs.readdir('./posts', (err, files) => 
                     {
-                        setTimeout(function()
+                        if(files.length > 0)
                         {
-                            twitter.post(t, function()
+                            setTimeout(function()
                             {
-                                console.log("Back");
-                            })
-                        }, 2000);
-                    }
-                })
-            }
-        })
+                                getTags(function(tags)
+                                {
+                                    console.log(tags);
+                                    twitter.post(t, function()
+                                    {
+                                        console.log("Back");
+                                    })
+                                });
+                            }, 4000);
+                        }
+                    })
+                }
+            })
+        });
     });
 });
 
