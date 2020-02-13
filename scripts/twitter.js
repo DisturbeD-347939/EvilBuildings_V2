@@ -43,11 +43,19 @@ module.exports =
                                 }
                                 else
                                 {
-                                    console.log("Posted!\n");
-                                    fs.readdir('./posts', (err, files) => 
+                                    console.log("Posted!");
+                                    fs.readdir('./posts', (err, posts) => 
                                     {
-                                        //var path = "./posts/" + (files.length-1);
-                                        //rimraf(path, function () { console.log("Folder deleted"); });
+                                        fs.readdir('./used', (err, used) => 
+                                        {
+                                            var oldPath = './posts/' + (posts.length - 1);
+                                            var newPath = './used/' + (used.length);
+
+                                            fsE.move(oldPath, newPath, err => {
+                                              if(err) return console.error(err);
+                                              console.log('Moved folder to used!\n');
+                                            });
+                                        })
                                     })
                                 }
                             });
@@ -160,6 +168,4 @@ function getDatasets(callback)
             return;
         });
     });
-}
-
 }
