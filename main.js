@@ -65,7 +65,7 @@ setImmediate(function()
     });
 });
 
-function getRedditPosts(r)
+function getRedditPosts(r, callback)
 {
     console.log("Getting reddit posts...");
     var counter = 0;
@@ -84,7 +84,6 @@ function getRedditPosts(r)
                 var title = fs.readFileSync('./posts/' + i + "/title.txt", 'utf-8', function(err, data){});
                 titles.push(title);
             }
-            console.log(titles + titles.length);
         }
 
     });
@@ -115,6 +114,9 @@ function getRedditPosts(r)
     
                     //Create title.txt containing the title for the post
                     fs.writeFile('./posts/' + counter + "/title.txt", redditPosts[i].title, function(err, data){});
+
+                    //Create a file with the format on it
+                    fs.writeFile('./posts/' + counter + "/format.txt", checkFormat(redditPosts[i].url), function(err, data){});
     
                     //Download post
                     download.get(redditPosts[i].url, path, function(){});
@@ -124,6 +126,7 @@ function getRedditPosts(r)
                 if(i + 1 >= redditPosts.length)
                 {
                     console.log("Got reddit posts!");
+                    callback();
                 }
             }
         });
