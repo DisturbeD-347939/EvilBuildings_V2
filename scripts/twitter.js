@@ -45,9 +45,48 @@ function getPostData(callback)
 
         callback([title,image]);
     });
+}
 
+//Get locations
+function checkLocation(countriesList, citiesList, content, callback)
+{
+    content = content.replace(/[^\w\s]/gi, '')
+    splitContent = content.split(" ");
+    function loopData(splitContent, callback)
+    {
+        var data = "";
+
+        function getCity(data, callback)
+        {
+            for(var i = 0; i < splitContent.length; i++)
+            {
+                for(var j = 0; j < citiesList.length; j++)
+                {
+                    var citiesLists = citiesList[j];
+                    if(splitContent[i] == citiesList[j][0])
+                    {
+                        data += splitContent[i] + ", " + citiesList[j][1];
+                    }
+                }
+            }
+            if(i == splitContent.length)
+            {
+                callback(data);
+            }
+        }
+        getCity(data, function(city)
+        {
+            data += city;
+            callback(data);
+        })
+    }
     
-    //
+    loopData(splitContent, function(data)
+    {
+        callback(data);
+    });
+}
+
 function getDatasets(callback)
 {
     //Variables
