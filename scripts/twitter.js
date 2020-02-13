@@ -2,7 +2,6 @@
 var fs = require('fs');
 var fsE = require('fs-extra');
 const csv = require('csv-parser');
-var rimraf = require("rimraf");
 
 module.exports =
 {
@@ -163,20 +162,4 @@ function getDatasets(callback)
     });
 }
 
-    //Move directory
-function moveDir(oldPath, newPath, callback)
-{
-    fsE.move(oldPath, newPath, err =>
-    {
-        if(err)
-        {
-            console.log(err);
-            callback();
-        }
-        else
-        {
-            console.log("Moved to used tweets folder");
-            callback();
-        }
-    })
 }
