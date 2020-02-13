@@ -48,6 +48,29 @@ function getPostData(callback)
 
     
     //
+function getDatasets(callback)
+{
+    //Variables
+    var countries = [], cities = [];
+    //Next callback
+    fs.createReadStream('countries_data.csv').pipe(csv()).on('data', (row) => 
+    {
+        countries.push([row.Country, row.Name]);
+    }).on('end', () => 
+    {
+        console.log("Countries replied with SUCCESS");
+        fs.createReadStream('cities_data.csv').pipe(csv()).on('data', (row) => 
+        {
+            cities.push([row.name, row.country]);
+        }).on('end', () => 
+        {
+            console.log("Cities replied with SUCCESS");
+            callback([countries, cities]);
+            return;
+        });
+    });
+}
+
     //Move directory
 function moveDir(oldPath, newPath, callback)
 {
