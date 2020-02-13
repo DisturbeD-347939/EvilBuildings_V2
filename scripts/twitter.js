@@ -48,4 +48,20 @@ function getPostData(callback)
 
     
     //
+    //Move directory
+function moveDir(oldPath, newPath, callback)
+{
+    fsE.move(oldPath, newPath, err =>
+    {
+        if(err)
+        {
+            console.log(err);
+            callback();
+        }
+        else
+        {
+            console.log("Moved to used tweets folder");
+            callback();
+        }
+    })
 }
