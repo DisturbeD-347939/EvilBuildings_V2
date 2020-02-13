@@ -5,7 +5,7 @@ const fs = require('fs');
 const VisualRecognitionV3 = require('watson-developer-cloud/visual-recognition/v3');
 
 //Ignored words
-var ignored = ["building", "Gray", "black", "gray", "colour", "color", "white"];
+var ignored = ["building", "Gray", "black", "gray", "colour", "color", "white", "business"];
 
 function auth(callback)
 {
