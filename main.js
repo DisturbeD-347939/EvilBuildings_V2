@@ -8,6 +8,9 @@ var ir = require('./scripts/imageRecognition');
 //File management
 var fs = require('fs');
 
+//Console input
+var stdin = process.openStdin();
+
 //Get config file variables
 var keyPath = 'keys.json';
 var configData = JSON.parse(fs.readFileSync('config.json', 'utf-8'));
@@ -220,3 +223,32 @@ function checkFormat(url)
 
     return format;
 }
+stdin.addListener("data", function(d) 
+{
+    if(d.toString().trim() == "get post")
+    {
+        console.log("Getting posts");
+        getRedditPosts(r, function(){});
+    }
+    else if(d.toString().trim() == "tweet post")
+    {
+        console.log("Tweeting post");
+        getTags(function(tags)
+        {
+            fs.readdir('./posts/', (err, files) => 
+            {
+                if(files.length > 0)
+                {
+                    twitter.post(t, tags, function()
+                    {
+                        console.log("Back");
+                    })
+                }
+                else
+                {
+                    console.log("Not enough posts");
+                }
+            })
+        });
+    }
+});
