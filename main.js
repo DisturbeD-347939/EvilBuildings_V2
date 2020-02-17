@@ -172,23 +172,39 @@ function getTags(callback)
 {
     fs.readdir('./posts/', (err, files) => 
     {
-        for(var i = files.length - 1; i < files.length; i++)
+        if(files.length > 0)
         {
-            var format = fs.readFileSync('./posts/' + i + "/format.txt", 'utf-8');
-            ir.classify('./posts/' + i + "/pic." + format, function(data)
+            for(var i = files.length - 1; i < files.length; i++)
             {
-                if(data != "err")
+                var format = fs.readFileSync('./posts/' + i + "/format.txt", 'utf-8');
+                var size = fs.statSync('./posts/' + i + '/pic.' + format);
+                var sizeInMB = size["size"] / 1000000.0;
+                if(sizeInMB < 10)
                 {
-                    ir.getTags(data, function(data)
+                    ir.classify('./posts/' + i + "/pic." + format, function(data)
                     {
-                        callback(data);
+                        if(data != "err")
+                        {
+                            ir.getTags(data, function(data)
+                            {
+                                callback(data);
+                            })
+                        }
+                        else
+                        {
+                            callback([" "]);
+                        }
                     })
                 }
                 else
                 {
-                    callback("");
+                    callback([" "]);
                 }
-            })
+            }
+        }
+        else
+        {
+            console.log("Not enough posts");
         }
     });
 }
@@ -223,6 +239,7 @@ function checkFormat(url)
 
     return format;
 }
+
 stdin.addListener("data", function(d) 
 {
     if(d.toString().trim() == "get post")
