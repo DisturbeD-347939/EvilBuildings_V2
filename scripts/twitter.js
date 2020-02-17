@@ -120,23 +120,28 @@ function checkLocation(countriesList, citiesList, content, callback)
     {
         var data = "";
 
+        console.log("Initial -> " + data);
+
         function getCity(data, callback)
         {
             for(var i = 0; i < splitContent.length; i++)
             {
+                console.log("Split -> " + splitContent[i]);
                 for(var j = 0; j < citiesList.length; j++)
                 {
                     var citiesLists = citiesList[j];
                     if(splitContent[i] == citiesList[j][0])
                     {
                         data += splitContent[i] + ", " + citiesList[j][1];
+                        callback(data) //MAYBE NEEDS REMOVING
                     }
                 }
+                if((i + 1) == splitContent.length)
+                {
+                    callback(data);
+                }
             }
-            if(i == splitContent.length)
-            {
-                callback(data);
-            }
+            
         }
         getCity(data, function(city)
         {
