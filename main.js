@@ -101,7 +101,13 @@ function getRedditPosts(r, callback)
         {
             for(var i = 0; i < files.length; i++)
             {
-                var title = fs.readFileSync('./posts/' + i + "/title.txt", 'utf-8', function(err, data){});
+                var title = fs.readFileSync('./posts/' + i + "/title.txt", 'utf-8', function(err, data)
+                {
+                    if(err)
+                    {
+                        callback("err");
+                    }
+                });
                 titles.push(title);
             }
         }
@@ -156,6 +162,10 @@ function getRedditPosts(r, callback)
                     //Download post
                     download.get(redditPosts[i].url, path, function(){});
                     counter++;
+                }
+                else
+                {
+                    console.log("Post repeated");
                 }
     
                 if(i + 1 >= redditPosts.length)
