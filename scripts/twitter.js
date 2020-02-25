@@ -133,7 +133,6 @@ function checkLocation(countriesList, citiesList, content, callback)
                     if(splitContent[i] == citiesList[j][0])
                     {
                         data += splitContent[i] + ", " + citiesList[j][1];
-                        callback(data) //MAYBE NEEDS REMOVING
                     }
                 }
                 if((i + 1) == splitContent.length)

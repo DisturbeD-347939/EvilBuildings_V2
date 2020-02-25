@@ -41,6 +41,7 @@ module.exports =
                 if(err)
                 {
                     console.log("Error");
+                    console.log(err);
                     callback("err");
                 }
                 else 

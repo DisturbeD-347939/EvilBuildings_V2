@@ -71,12 +71,13 @@ function run()
                             {
                                 getTags(function(tags)
                                 {
+                                    console.log("Tags -> " + tags);
                                     twitter.post(t, tags, function()
                                     {
                                         console.log("Back");
                                     })
                                 });
-                            }, 4000);
+                            }, 15000);
                         }
                     })
                 }
@@ -154,10 +155,12 @@ function getRedditPosts(r, callback)
                     fs.mkdir('./posts/' + counter, function(err, data){});
     
                     //Create title.txt containing the title for the post
-                    fs.writeFile('./posts/' + counter + "/title.txt", redditPosts[i].title, function(err, data){});
+                    console.log(redditPosts[i].title);
+                    fs.writeFileSync('./posts/' + counter + "/title.txt", redditPosts[i].title, function(err, data){});
 
                     //Create a file with the format on it
-                    fs.writeFile('./posts/' + counter + "/format.txt", checkFormat(redditPosts[i].url), function(err, data){});
+                    console.log(checkFormat(redditPosts[i].url));
+                    fs.writeFileSync('./posts/' + counter + "/format.txt", checkFormat(redditPosts[i].url), function(err, data){});
     
                     //Download post
                     download.get(redditPosts[i].url, path, function(){});
