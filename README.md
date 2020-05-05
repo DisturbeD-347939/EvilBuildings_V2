@@ -13,6 +13,13 @@ This was a **personal** project developed just to **learn** a bit more about **A
 EvilBuildings is **finished**!
 
 ---
+## **Technologies used**
+Back-End:
+  1. NodeJS
+  2. Express
+  3. Npm
+
+---
 ## **Installation**
 To install the project just make a **copy** of the repository in your computer and be sure to have [NodeJS installed](https://nodejs.org/en/download/) too!
 
