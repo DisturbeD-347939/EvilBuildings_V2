@@ -7,6 +7,8 @@ EvilBuildings is a **Twitter bot** that posts images of evil looking buildings. 
 
 After doing so, it runs the images through **IBM Image Recognition** to get words similar to what's in the picture. The bot then uses those words and **creates hashtags** which will be posted with the Twitter post in order to hopefully earn some more views! Not only does it get hashtags but it also recognises the names of cities or countries in the reddit post and **posts the locations** too.
 
+**Not running anymore** due to the fact I don't have any more free raspberry pi's at home to keep the server running 24/7.
+
 This was a **personal** project developed just to **learn** a bit more about **API's**!
 EvilBuildings is **finished**!
 
